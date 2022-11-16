@@ -13,14 +13,14 @@ if [ ! -f "$repo_location/Makefile" ]; then
 fi
 
 local_location=42Tester-push_swap/
-if [ ! -f "$local_location/tester.sh" ]; then
+if [ ! -f "$local_location/tester_performance.sh" ]; then
 	local_location=./
 fi
 
 
 if [ ! -f "$repo_location/Makefile" ]; then
 	echo "${RED}ERROR${NC}: Not able to set repo location"
-elif [ ! -f "$local_location/tester.sh" ]; then
+elif [ ! -f "$local_location/tester_performance.sh" ]; then
 	echo "${RED}ERROR${NC}: Not able to set local location"
 	return;
 fi
