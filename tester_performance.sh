@@ -12,10 +12,22 @@ if [ ! -f "$repo_location/Makefile" ]; then
 	repo_location=../
 fi
 
+local_location=42Tester-push_swap/
+if [ ! -f "$local_location/tester.sh" ]; then
+	local_location=./
+fi
+
+
+if [ ! -f "$repo_location/Makefile" ]; then
+	echo "${RED}ERROR${NC}: Not able to set repo location"
+elif [ ! -f "$local_location/tester.sh" ]; then
+	echo "${RED}ERROR${NC}: Not able to set local location"
+	return;
+fi
+
 executable=${repo_location}push_swap
-
-
 checker=${repo_location}checker
+
 os=$(uname -s)
 if [ ! -f $checker ]; then
 	if [ "$1" = "--linux" ]; then
