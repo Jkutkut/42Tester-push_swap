@@ -26,6 +26,16 @@ Run the scripts with:
 ./42Tester-push_swap/tester_bonus.sh
 ```
 
+### Valgrind:
+```
+./42Tester-push_swap/valgrind.sh
+```
+
+Or with custom input:
+
+```
+./42Tester-push_swap/valgrind.sh <INPUT>
+```
 
 ## Visualizer:
 By the use of the visualizer made by [GlaceCoding](https://github.com/GlaceCoding/GlaceCoding.github.io), the following script allows you to see it online:
