@@ -57,6 +57,9 @@ main() {
 			big
 		elif [ "$1" = "huge" ]; then
 			huge
+		elif [ "$1" = "custom" ]; then
+			shift
+			visualizeRandom $@
 		else
 			VISUALIZER $@
 			break

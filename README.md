@@ -38,3 +38,9 @@ By the use of the visualizer made by [GlaceCoding](https://github.com/GlaceCodin
 
 
 **Note 2**: If the type is something else, the script will attempt to run it with those values.
+
+Additionally, if you want to generate a random visualization with the values in a range, you can run:
+
+```
+./42Tester-push_swap/visualize.sh custom <MIN> <MAX>
+```
