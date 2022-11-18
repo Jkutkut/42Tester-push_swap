@@ -1,8 +1,18 @@
-empty:
+empty1:
+empty2:"       "
+empty3:"   " "" "     "
 number:1 6 3
+positive:321 +2 1 +3231232
+negative:212 -23232
 number_string:"1 4 3"
 mixed:"3 2 1" 4
 mixed2:3 "5 6 8 9" 2 "1 0"
 space:"  2 3 1"
+big_numbers:2132132 32334 223232 21123
+long_numbers:-2132132 32334 -223232 +21123
 max:2147483647 0
+max2:+2147483647 0
 min:0 -2147483648
+empty_strings:"" "  2 3   4 55" 8
+empty_strings2:"  2 3   4 55" 8 "                                          "
+empty_strings3:"" "  2 3   4 55" 8 " " 2"23 33"

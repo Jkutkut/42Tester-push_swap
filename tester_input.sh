@@ -29,13 +29,13 @@ executable=${repo_location}push_swap
 
 run_test() {
 	echo "- ${BLUE}$1${NC} \c"
-	eval "$executable $2 > result.tmp 2> output.tmp"
+	eval "$executable $2" > result.tmp 2> output.tmp
 	if [ ! "$(cat output.tmp)" = "" ]; then
 		echo "${RED}[FAIL]${NC}"
-		echo "  Replicate it with"
 		echo "  $executable $2"
 		cat output.tmp
 		echo
+		return;
 	else
 		echo "${GREEN}[HANDLE_OK]${NC} \c"
 	fi
@@ -57,17 +57,14 @@ run_test() {
 
 run_invalid_test() {
 	echo "- ${BLUE}$1${NC} \c"
-	eval "$executable $2 > /dev/null 2> output.tmp"
-	if [ ! "$(cat output.tmp)" = "" ]; then
-		echo "${GREEN}[HANDLE_OK]${NC}"
-	elif [ "$(cat output.tmp | grep empty)" = "" ]; then
+	eval "$executable $2" > result.tmp 2> output.tmp
+	if [ ! "$(cat output.tmp)" = "" ] && [ "$(cat result.tmp)" = "" ]; then
 		echo "${GREEN}[HANDLE_OK]${NC}"
 	else
 		echo "${RED}[FAIL]${NC}"
-		echo "  Replicate it with"
 		echo "  $executable $2"
 	fi
-	rm output.tmp
+	rm result.tmp output.tmp
 }
 
 
