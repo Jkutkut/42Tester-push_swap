@@ -113,12 +113,14 @@ random_test() {
 			return 1
 		fi
 
+		echo -n "\r $((i * 100 / $tests))%\c" # progress
+
 		n_steps=$($executable $input | wc -l | xargs)
 		avg=$(($avg + $n_steps))
 	done
 	avg=$(($avg / $tests))
-	
-	echo "  - Average: ${YELLOW}$avg${NC} moves \c"
+
+	echo "\r  - Average: ${YELLOW}$avg${NC} moves \c"
 	
 	if [ $limit -lt 0 ]; then
 		getRange $avg "$outstanding"
@@ -176,9 +178,9 @@ main() {
 	fi
 
 	test_3
-	random_test 50 5  12 8
-	random_test 50 100 -1 "700 900 1100 1300 1500"
-	random_test 50 500 -1 "5500 7000 8500 100000 11500"
+	random_test 100 5  12 8
+	random_test 100 100 -1 "700 900 1100 1300 1500"
+	random_test 100 500 -1 "5500 7000 8500 100000 11500"
 }
 trap "echo ERROR;" 2
 trap "rm -f error.tmp success.tmp; return" 2
