@@ -29,7 +29,7 @@ executable=${repo_location}push_swap
 
 run_test() {
 	echo "- ${BLUE}$1${NC} \c"
-	eval "$executable $2 > /dev/null 2> output.tmp"
+	eval "$executable $2 > result.tmp 2> output.tmp"
 	if [ ! "$(cat output.tmp)" = "" ]; then
 		echo "${RED}[FAIL]${NC}"
 		echo "  Replicate it with"
@@ -37,18 +37,31 @@ run_test() {
 		cat output.tmp
 		echo
 	else
-		echo "${GREEN}[OK]${NC}"
+		echo "${GREEN}[HANDLE_OK]${NC} \c"
 	fi
-	rm output.tmp
+
+	if [ ! -f $checker ]; then
+		echo "${YELLOW}[NOT CHECKED]${NC}"
+	else
+		r=$(cat result.tmp | $checker $2 2> /dev/null)
+		if [ "$r" = "OK" ] || [ "$r" = "" ]; then
+			echo "${GREEN}[OK]${NC}"
+		else
+			echo "${RED}[KO]${NC}"
+			echo "  $executable $2"
+			echo "  $executable $2 | $checker $2"
+		fi
+	fi
+	rm result.tmp output.tmp
 }
 
 run_invalid_test() {
 	echo "- ${BLUE}$1${NC} \c"
 	eval "$executable $2 > /dev/null 2> output.tmp"
 	if [ ! "$(cat output.tmp)" = "" ]; then
-		echo "${GREEN}[OK]${NC}"
+		echo "${GREEN}[HANDLE_OK]${NC}"
 	elif [ "$(cat output.tmp | grep empty)" = "" ]; then
-		echo "${GREEN}[OK]${NC}"
+		echo "${GREEN}[HANDLE_OK]${NC}"
 	else
 		echo "${RED}[FAIL]${NC}"
 		echo "  Replicate it with"
@@ -59,6 +72,11 @@ run_invalid_test() {
 
 
 make -C $repo_location
+
+checker=${repo_location}checker
+if [ ! -f $checker ]; then
+	checker=${local_location}checker
+fi
 
 echo "${BLUE}
   _____                 _ _     _ 

@@ -21,6 +21,9 @@ Run the scripts with:
 ./42Tester-push_swap/tester_input.sh
 ```
 
+If it has a ```./checker``` file (like the one on the intranet), it will also
+run it on the valid ones.
+
 ### Bonus:
 ```
 ./42Tester-push_swap/tester_bonus.sh
