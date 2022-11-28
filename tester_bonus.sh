@@ -66,7 +66,8 @@ tester_file() {
 
 		echo
 		echo "${name} \c"
-		echo "$steps" | ${checker} $input > result.tmp 2> error.tmp;
+		# echo -n "${steps}" | ${checker} $input > result.tmp 2> error.tmp;
+		eval "echo -n \"${steps}\" | ${checker} $input > result.tmp 2> error.tmp"
 		result=$(cat result.tmp);
 		error=$(cat error.tmp);
 		rm result.tmp error.tmp;
@@ -74,13 +75,13 @@ tester_file() {
 		if [ $($ft "$result" "$error") = "1" ]; then
 			echo "${GREEN}[OK]${NC}";
 		else
-			echo "${RED}[KO]${NC}"
+			echo "${RED}[KO]${NC}";
 			fail="true";
 		fi
 
 		if [ "$fail" = "true" ]; then
-			echo "${BLUE}  Steps:${NC}"
-			echo "    ${BLUE}$>${YELLOW} echo \"$steps\" | ${checker} $input${NC}"
+			echo "${BLUE}  Steps:${NC}";
+			echo "    ${BLUE}$>${NC} echo -n \"$steps\" | ${checker} $input";
 
 			echo "${YELLOW}  result:${NC} '$result'"
 			echo "${YELLOW}  error:${NC}\n'$error'"
