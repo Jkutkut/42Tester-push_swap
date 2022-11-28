@@ -26,11 +26,6 @@ elif [ ! -f "$local_location/tester_performance.sh" ]; then
 fi
 
 
-test_location="${local_location}.test/"
-test_input_prefix="${test_location}input_"
-test_output_prefix="${test_location}bonus/result_"
-test="basic 3elements"
-
 pushswap=${repo_location}pushswap
 checker=${repo_location}checker
 
@@ -40,28 +35,49 @@ if [ ! -f ${checker} ]; then
 	return;
 fi
 
-for t in $(echo $test); do
-	i=1;
-	while IFS= read -r input; do
-		echo "- ${BLUE}${t}_${i}${NC}\c"
-		spectedResult=${test_output_prefix}${t}_$i
-		if [ $i -lt 10 ]; then
-			spectedResult=${test_output_prefix}${t}_0$i
-		fi
-		cat $spectedResult | $checker $input 2> error.tmp > success.tmp
-		if [ "$(cat success.tmp)" = "OK" ]; then
-			echo " ${GREEN}[OK]${NC}"
+is_ok() {
+	if [ "$1" = "OK" ] && [ "$2" = "" ]; then
+		echo "1"
+	else
+		echo "0"
+	fi
+}
+
+tester_file() {
+	file="$1"
+	ft=$2
+
+	while IFS= read -r t; do
+		name=$(echo "$t\c" | cut -d: -f1);
+		steps=$(echo "$t\c" | cut -d: -f2 | sed 's/,/\n/g');
+		input=$(echo "$t\c" | cut -d: -f3);
+		
+		fail="false";
+
+		echo
+		echo "${name} \c"
+		echo "$steps" | ${checker} $input > result.tmp 2> error.tmp;
+		result=$(cat result.tmp);
+		error=$(cat error.tmp);
+		rm result.tmp error.tmp;
+
+		if [ "$negative" = "true" ]; then
+			# TODO
+			echo "TODO"
 		else
-			echo " ${RED}[FAIL]${NC}"
-			echo "    Output of checker:"
-			echo "-----------"
-			cat error.tmp
-			echo "-----------"
-			echo "    Test made:"
-			echo "cat $spectedResult | ./checker $input"
-			echo
+			if [ $($ft "$result" "$error") = "1" ]; then
+				echo "${GREEN}[OK]${NC}";
+			else
+				echo "${RED}[KO]${NC}"
+				fail="true";
+			fi
 		fi
-		i=$((i + 1))
-		rm -f error.tmp success.tmp
-	done < "$test_input_prefix$t"
-done
+
+		if [ "$fail" = "true" ]; then
+			echo "${BLUE}  Steps:${NC}"
+			echo "    ${BLUE}$>${YELLOW} echo \"$steps\" | ${checker} $input${NC}"
+		fi
+	done < $file
+}
+
+tester_file "${local_location}.test/bonus/valid" "is_ok"
