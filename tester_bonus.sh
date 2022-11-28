@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 # Colors:
 NC='\033[0m' # No Color
@@ -44,8 +44,12 @@ is_ok() {
 }
 
 is_ko() {
-	# TODO
-	echo todo
+	if [ "$1" = "" ] && [ $(echo "$2" | grep 'KO')  ]; then
+	#if [ "$1" = "" ] && [[ -n "${2%%KO.*}" ]]; then
+		echo "1"
+	else
+		echo "0"
+	fi
 }
 
 is_invalid() {
@@ -54,8 +58,13 @@ is_invalid() {
 }
 
 tester_file() {
-	file="$1"
-	ft=$2
+	name="$1"
+	file="$2"
+	ft=$3
+
+	echo
+	echo
+	echo "${BLUE}*********** ${name} ***********${NC}"
 
 	while IFS= read -r t; do
 		name=$(echo "$t\c" | cut -d: -f1);
@@ -89,4 +98,5 @@ tester_file() {
 	done < $file
 }
 
-tester_file "${local_location}.test/bonus/valid" "is_ok"
+tester_file "valid" "${local_location}.test/bonus/valid" "is_ok"
+tester_file "invalid" "${local_location}.test/bonus/invalid" "is_ko"
