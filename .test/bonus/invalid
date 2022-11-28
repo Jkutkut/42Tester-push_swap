@@ -2,3 +2,14 @@ no instructions 01::2 1
 no instructions 02::2 1 3
 no instructions 03::3 1 2
 no instructions 04::3 2 1
+invalid move 01:sb:1 2 3
+invalid move 02:pa:1 2 3 5 4
+invalid move 03:pb,pb,pb,pb:1 2 3
+invalid arg 01::a
+invalid arg 02:sa:2 1a
+invalid arg 03::1 1232312321321312312312312
+invalid arg 04:sa:323232323443 21
+invalid arg 05:sa:32323O43 21
+invalid arg 06:sa:-32323O43 21
+invalid arg 07::1 -1232312321321312312312312
+invalid 01:pb,pb,ss,pa,pa:1 2 3 4 5

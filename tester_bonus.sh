@@ -45,16 +45,10 @@ is_ok() {
 
 is_ko() {
 	if [ "$1" = "" ] && [ $(echo "$2" | grep 'KO')  ]; then
-	#if [ "$1" = "" ] && [[ -n "${2%%KO.*}" ]]; then
 		echo "1"
 	else
 		echo "0"
 	fi
-}
-
-is_invalid() {
-	# TODO
-	echo todo
 }
 
 tester_file() {
