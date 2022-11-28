@@ -43,6 +43,16 @@ is_ok() {
 	fi
 }
 
+is_ko() {
+	# TODO
+	echo todo
+}
+
+is_invalid() {
+	# TODO
+	echo todo
+}
+
 tester_file() {
 	file="$1"
 	ft=$2
@@ -61,21 +71,19 @@ tester_file() {
 		error=$(cat error.tmp);
 		rm result.tmp error.tmp;
 
-		if [ "$negative" = "true" ]; then
-			# TODO
-			echo "TODO"
+		if [ $($ft "$result" "$error") = "1" ]; then
+			echo "${GREEN}[OK]${NC}";
 		else
-			if [ $($ft "$result" "$error") = "1" ]; then
-				echo "${GREEN}[OK]${NC}";
-			else
-				echo "${RED}[KO]${NC}"
-				fail="true";
-			fi
+			echo "${RED}[KO]${NC}"
+			fail="true";
 		fi
 
 		if [ "$fail" = "true" ]; then
 			echo "${BLUE}  Steps:${NC}"
 			echo "    ${BLUE}$>${YELLOW} echo \"$steps\" | ${checker} $input${NC}"
+
+			echo "${YELLOW}  result:${NC} '$result'"
+			echo "${YELLOW}  error:${NC}\n'$error'"
 		fi
 	done < $file
 }
