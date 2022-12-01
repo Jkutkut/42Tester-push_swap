@@ -1,74 +1,75 @@
 #!/bin/sh
 
-SPEED=50
+SPEED=50;
 
-repo_location=./
+repo_location=./;
 if [ ! -f "$repo_location/Makefile" ]; then
-	repo_location=../
+	repo_location=../;
 fi
 
 VISUALIZER() {
 	ARGS="$@";
 	if [ "$(uname -s)" = "Darwin" ]; then
-		echo "./push_swap $ARGS | pbcopy"
-		${repo_location}push_swap $ARGS | pbcopy
-		echo "output copied to mac clipboard"
+		echo "./push_swap $ARGS | pbcopy";
+		${repo_location}push_swap $ARGS | pbcopy;
+		echo "output copied to mac clipboard";
 	elif [ "$(uname -s)" = "Linux" ]; then
-		echo "./push_swap $ARGS | xclip -selection clipboard"
+		echo "./push_swap $ARGS | xclip -selection clipboard";
 		${repo_location}push_swap $ARGS | xclip -selection clipboard &&
 		echo "Output copied to linux clipboard" ||
 		echo "xclip is not installed. If you want to use it:\n  sudo apt install xclip -y"
 	fi
-	open "https://GlaceCoding.github.io/tools/pushswap/visualizer/?size=15&speed=$SPEED&args=$ARGS"
+	open "https://GlaceCoding.github.io/tools/pushswap/visualizer/?size=15&speed=$SPEED&args=$ARGS";
 }
 
 visualizeRandom() {
-	min=$1
-	max=$2
-	input=$(ruby -e "puts ($min..$max).to_a.shuffle.join(' ')")
+	min=$1;
+	max=$2;
+	input=$(ruby -e "puts ($min..$max).to_a.shuffle.join(' ')");
 
-	VISUALIZER $input
+	VISUALIZER $input;
 }
 
 small() {
-	visualizeRandom -1 1
+	visualizeRandom -1 1;
 }
 
 medium() {
-	visualizeRandom -3 1
+	visualizeRandom -3 1;
 }
 
 big() {
-	visualizeRandom 1 100
+	visualizeRandom 1 100;
 }
 
 huge() {
-	visualizeRandom 1 500
+	visualizeRandom 1 500;
 }
 
 main() {
 	# check_dependencies || return 1
 	while [ ! "$1" = "" ]; do
 		if [ "$1" = "small" ]; then
-			small
+			small;
 		elif [ "$1" = "medium" ]; then
-			medium
+			medium;
 		elif [ "$1" = "big" ]; then
-			big
+			big;
 		elif [ "$1" = "huge" ]; then
-			huge
+			huge;
 		elif [ "$1" = "custom" ]; then
-			shift
+			shift;
 			visualizeRandom $@
+			break;
 		else
 			VISUALIZER $@
-			break
+			break;
 		fi
-		shift
+		shift;
 	done
 	
 }
 
-make -C $repo_location
-main $@
+make -C $repo_location;
+main $@;
 
